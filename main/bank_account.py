@@ -20,8 +20,9 @@ class Bank_Account:
         return [f'£{entry:.2f}' for entry in self.ledger if entry >0]
     
     def check_balance(self):
-        return sum(amount for amount in self.ledger)
-    
+        return sum(self.ledger)
+        
+        
     def check_funds(self, amount):
         return  amount <= self.check_balance()
 
@@ -38,7 +39,7 @@ class Bank_Account:
     def acc_number(self):
         return self.__acc_number
     @pin.setter
-    def pin(self, new_pin):
+    def pin(self, new_pin):        
         self.__pin = new_pin
     @ledger.setter
     def ledger(self, amount):
