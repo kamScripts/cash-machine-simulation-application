@@ -10,7 +10,7 @@ class Bank_Account:
     def withdraw(self, amount):
         if self.check_funds(amount):
             self.ledger = -float(amount)
-            
+
             return True
         else:
             return False
@@ -36,7 +36,7 @@ class Bank_Account:
         return self.__acc_number
     @pin.setter
     def pin(self, new_pin):           
-                self.__pin = new_pin        
+        self.__pin = new_pin        
     @ledger.setter
     def ledger(self, amount):
         self.__ledger.append(amount)

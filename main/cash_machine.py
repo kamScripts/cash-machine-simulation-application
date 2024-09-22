@@ -5,12 +5,11 @@ class CashMachine:
     PROMPT = '''
         Choose one of the following options:
             1. Check Balance
-            2. Check Deposit history
-            3. Check Withdrawal history
-            4. Withdraw Funds
-            5. Deposit Funds
-            6. Change Pin
-            7. Exit
+            2. Check Transfer history
+            3. Withdraw Funds
+            4. Deposit Funds
+            5. Change Pin
+            6. Exit
         Type 1-7 to choose following option:
          
 ''' 
@@ -30,16 +29,14 @@ class CashMachine:
                 case '1': 
                     print(self._get_balance(account))
                 case '2': 
-                    print(self._get_dep_hist(account))
+                    print(self._transfer_history(account))
                 case '3':
-                    print(self._get_wid_hist(account))
-                case '4':
                     self._withdraw(account)
-                case '5':
+                case '4':
                     self._deposit(account)
-                case '6':
+                case '5':
                     self._set_new_pin(account)
-                case '7':
+                case '6':
                     self._goodbye()                
     def _verify_pin(self, account):
         attempt_counter = 0       
@@ -64,12 +61,22 @@ class CashMachine:
             return False
     def _get_balance(self, account):
         return f' Account Balance: £{account.ledger:.2f} '.center(self.MAX_LENGTH, '*') 
-    def _get_dep_hist(self,account):
-        return f'Deposit History:\n{account.deposit_history()}'
-    def _get_wid_hist(self,account):
-        return f'Withdrawals History:\n{account.withdrawal_history()}'
+    def _transfer_history(self, account):
+        output = ' Deposit History: '
+        
+        for entry in account.deposit_history():
+            output += f' {entry} '
+        output+='\n'
+        output += ' Withdrawals History: '
+        
+        for entry in account.withdrawal_history():
+            output += f' {entry} '
+        
+        return output
+         
+
     def _withdraw(self, account):
-        amount = float(input('Amount to withdraw: '))
+        amount = float(input('\tAmount to withdraw: '))
         boolean = account.withdraw(amount)
         if(boolean):
             print(f'You successfully withdrew £{amount}')   
