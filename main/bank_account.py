@@ -35,8 +35,11 @@ class Bank_Account:
     def acc_number(self):
         return self.__acc_number
     @pin.setter
-    def pin(self, new_pin):           
-        self.__pin = new_pin        
+    def pin(self, new_pin):
+        if len(new_pin)>= 4 or len(new_pin) <=6:          
+            self.__pin = new_pin
+        else:
+            return False        
     @ledger.setter
     def ledger(self, amount):
         self.__ledger.append(amount)
