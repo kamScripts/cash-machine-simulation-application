@@ -74,18 +74,24 @@ class CashMachine:
         
         return output
          
-
+# add conditionals to withdraw/deposit to prevent ValueError, regex: r'^\d+$'
     def _withdraw(self, account):
-        amount = float(input('\tAmount to withdraw: '))
-        boolean = account.withdraw(amount)
-        if(boolean):
-            print(f'You successfully withdrew £{amount}')   
+        amount = input('\tAmount to withdraw: ')
+        if re.match(r'^\d+$', amount):
+            boolean = account.withdraw(float(amount))        
+            if(boolean):
+                print(f' You successfully withdrew £{amount} '.center(self.MAX_LENGTH, '*'))   
+            else:
+                print('You have not enough funds'.center(self.MAX_LENGTH, '*'))
         else:
-            print('You have not enough funds')
+            print(' Value error, type only digits. '.center(self.MAX_LENGTH, '*'))
     def _deposit(self, account):
-        amount = float(input('Amount to deposit: '))
-        account.deposit(amount)
-        print(f' You successfully deposited £{amount}. '.center(self.MAX_LENGTH, '*'))
+        amount = input('\tAmount to deposit: ')
+        if re.match(r'^\d+$', amount):
+            account.deposit(float(amount))
+            print(f' You successfully deposited £{amount}. '.center(self.MAX_LENGTH, '*'))
+        else:
+            print(' Value error, type only digits. '.center(self.MAX_LENGTH, '*'))
     def _set_new_pin(self, account):        
         new_pin = input('Type New Pin:')
         if re.match(r'^\d{4-6}$', new_pin):                        
