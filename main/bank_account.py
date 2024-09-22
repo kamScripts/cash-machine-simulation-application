@@ -10,21 +10,17 @@ class Bank_Account:
     def withdraw(self, amount):
         if self.check_funds(amount):
             self.ledger = -float(amount)
+            
             return True
         else:
             return False
     def withdrawal_history(self):
-        return [f'£{abs(entry):.2f}' for entry in self.ledger if entry <0]
+        return [f'£{abs(entry):.2f}' for entry in self.__ledger if entry <0]
     
     def deposit_history(self):
-        return [f'£{entry:.2f}' for entry in self.ledger if entry >0]
-    
-    def check_balance(self):
-        return sum(self.ledger)
-        
-        
+        return [f'£{entry:.2f}' for entry in self.__ledger if entry >0]
     def check_funds(self, amount):
-        return  amount <= self.check_balance()
+        return  amount <= self.ledger
 
     @property 
     def name(self):
@@ -34,13 +30,13 @@ class Bank_Account:
         return self.__pin
     @property
     def ledger(self):
-        return self.__ledger
+        return sum(self.__ledger)
     @property
     def acc_number(self):
         return self.__acc_number
     @pin.setter
-    def pin(self, new_pin):        
-        self.__pin = new_pin
+    def pin(self, new_pin):           
+                self.__pin = new_pin        
     @ledger.setter
     def ledger(self, amount):
         self.__ledger.append(amount)
