@@ -2,15 +2,15 @@ class Bank_Account:
     def __init__(self, name, pin, acc_number):
         self.__name = name
         self.__pin = pin
-        self.__ledger = []
         self.__acc_number = acc_number
+        self.__ledger = []
+        
     
     def deposit(self, amount):
         self.ledger = float(amount)
     def withdraw(self, amount):
         if self.check_funds(amount):
             self.ledger = -float(amount)
-
             return True
         else:
             return False
@@ -36,7 +36,7 @@ class Bank_Account:
         return self.__acc_number
     @pin.setter
     def pin(self, new_pin):
-        if len(new_pin)>= 4 or len(new_pin) <=6:          
+        if len(new_pin)>= 4 or len(new_pin) <=6:        
             self.__pin = new_pin
         else:
             return False        

@@ -4,16 +4,16 @@ from style import *
 
 class CashMachine: 
     PROMPT = f'''
-        Choose one of the following options:
-            {yellow('1.')} Check Balance
-            {yellow('2.')} Check Transfer history
-            {yellow('3.')} Withdraw Funds
-            {yellow('4.')} Deposit Funds
-            {yellow('5.')} Change Pin
-            {yellow('6.')} Exit       
+Choose one of the following options:
+    {yellow('1.')} Check Balance
+    {yellow('2.')} Check Transfer history
+    {yellow('3.')} Withdraw Funds
+    {yellow('4.')} Deposit Funds
+    {yellow('5.')} Change Pin
+    {yellow('6.')} Exit       
 ''' 
     LINES = PROMPT.split('\n')
-    MAX_LENGTH = len(LINES[1])
+    MAX_LENGTH = 50
     
     def user_interface(self, account):
         self._verify_pin(account)            
@@ -38,7 +38,7 @@ class CashMachine:
         attempt_counter = 0       
         while(True):            
             user_pin = pwinput.pwinput(prompt=f'\t{yellow("Please enter pin to log in:")}')
-            welcome_string=f' Hi, {account.name}. '  
+            welcome_string=f' Hi, {account.name}. '
             if  re.match(r'^\d+$', user_pin):
                 if self._check_pin(account, int(user_pin)): 
                     
@@ -70,7 +70,7 @@ class CashMachine:
         
         return output
     def _withdraw(self, account):
-        amount = input(f'\t{yellow("Amount to withdraw:")} ')
+        amount = input(f'{yellow("Amount to withdraw:").rjust(self.MAX_LENGTH)} ')
         if re.match(r'^\d+$', amount):
             boolean = account.withdraw(float(amount))        
             if(boolean):
@@ -80,12 +80,12 @@ class CashMachine:
         else:
             print(red(' Value error, type only digits. ').center(self.MAX_LENGTH, '*'))
     def _deposit(self, account):
-        amount = input(f'\t{green_no_background("Amount to deposit:")} ')
+        amount = input(f'{green_no_background("Amount to deposit:").rjust(self.MAX_LENGTH)} ')
         if re.match(r'^\d+$', amount):
             account.deposit(float(amount))
             print(f' {green_no_background("You successfully deposited £")}{amount}. '.center(self.MAX_LENGTH, '*'))
         else:
-            print(red_no_background(' Value error, type only digits. ').center(self.MAX_LENGTH, '*'))
+            print(red(' Value error, type only digits. ').center(self.MAX_LENGTH, '*'))
     def _set_new_pin(self, account):        
         new_pin = input('Type New Pin:')
         if re.match(r'^\d{4}$', new_pin):                        
