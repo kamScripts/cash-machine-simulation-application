@@ -1,20 +1,36 @@
+import datetime
 class Bank_Account:
     def __init__(self, name, pin, acc_number):
         self.__name = name
         self.__pin = pin
         self.__acc_number = acc_number
         self.__ledger = []
+        self.file = f'{acc_number}.csv'
         
-    
+    def save(self, item):
+        print(self.file)
+        with open(self.file, "a") as f:
+            f.write(f'{float(item):.2f}, {datetime.datetime.now()}\n')
+
     def deposit(self, amount):
         self.ledger = float(amount)
+        self.save(amount)
     def withdraw(self, amount):
         if self.check_funds(amount):
             self.ledger = -float(amount)
+            self.save(-amount)
             return True
         else:
             return False
-    def withdrawal_history(self):
+    def transfer_history(self):
+        transfers = []
+        with open(self.file, 'r') as f:
+            lines = f.readlines()
+            for line in lines:
+                amount, _ = line.strip().split(',')
+                transfers.append(amount)
+        return transfers
+    def withdrawal_history(self):        
         return [f'£{abs(entry):.2f}' for entry in self.__ledger if entry <0]
     
     def deposit_history(self):
