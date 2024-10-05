@@ -1,4 +1,8 @@
 import datetime
+#zmienic czek @property ledger, check funds, dodac wybor kont i moze stworzenie nowego konta
+#posprzatac funkcje, zrobic cos z self.ledger
+# zmienic ledger na self.balance  i przy transferze update? 
+# zmienic transfer history w atm zeby wyswietlalo oddzielnie depozyty i wyplaty
 class Bank_Account:
     def __init__(self, name, pin, acc_number):
         self.__name = name
