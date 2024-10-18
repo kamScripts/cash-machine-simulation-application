@@ -1,15 +1,12 @@
 import pwinput 
 import os
 from time import sleep
-from style import green, red, yellow, red_no_background, green_no_background
-from prompter import prompts
-from accounts import accounts
-
-
-
+from App.style import green, red, yellow, red_no_background, green_no_background
+from App.prompter import prompts
+from App.accounts import accounts
 
 class CashMachine:    
-    MAX_LENGTH, _ = os.get_terminal_size()
+    MAX_LENGTH, height = os.get_terminal_size()
     def user_interface(self):
         exit_app = False
         account = self.insert_card()
