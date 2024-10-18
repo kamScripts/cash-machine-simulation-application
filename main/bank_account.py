@@ -8,8 +8,8 @@ class Bank_Account:
         self.__name = name
         self.__pin = pin
         self.__acc_number = acc_number
-        self._balance = 0    
-        self.file = f'./main/{acc_number}.csv'      
+        self._balance = 0.0   
+        self.file = f'{acc_number}.csv'      
 
     def deposit(self, amount):
         self.balance = amount
@@ -31,14 +31,11 @@ class Bank_Account:
         return transfers
        
     def check_funds(self, amount):
-        return  amount <= self.sum_expenses()
+        return  amount <= self.balance
     
     def save(self, amount):
             with open(self.file, "a") as f:
                 f.write(f'{float(amount):.2f}, {datetime.datetime.now()}\n')
-
-    def sum_expenses(self):
-            return sum([float(transfer) for transfer in self.transfer_history()])
          
 
     @property 
