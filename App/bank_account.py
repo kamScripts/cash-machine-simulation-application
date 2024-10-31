@@ -11,18 +11,12 @@ class Bank_Account:
         self.__name = name
         self.__pin = pin
         self.__acc_number = acc_number 
-        self.transaction_history = f'{acc_number}.csv'
-        self.balance_file = f'{acc_number}_b.txt'
+        self.transaction_history = f'.\\App\\data\\{acc_number}.txt'
+        self.balance_file = f'.\\App\\data\\{acc_number}_b.txt'
         #check if new object balance is read properly after remove value in innit
         create_file(self.balance_file)
         create_file(self.transaction_history)
-        
-#self.transaction_history, "w")
-
-               
-
-                
-              
+                      
     def deposit(self, amount):
         self.balance = amount
         save_transaction(self.transaction_history,amount)
@@ -38,13 +32,13 @@ class Bank_Account:
     def transfer_history(self):
         transfers = []
         with open(self.transaction_history, "r") as f:
-            # check only last 20 transfers
+            # check only last 100 transfers
             lines = f.readlines()[-1:-100:-1]          
-            for line in lines:
-                # avoid value error when unpacking if line equals '\n'
-                if line == '\n' or not line.isdigit():
-                    continue
-                amount, _ = line.strip().split(',')
+            for line in lines:              
+                if line == '\n':
+                    continue  
+                # avoid value error when unpacking if line equals '\n'                
+                amount, _ = line.rstrip('\n').split(',')
                 transfers.append(amount)
         return transfers
        
@@ -62,7 +56,11 @@ class Bank_Account:
         return self.__acc_number
     @property
     def balance(self):
-        b = float(read_first_line(self.balance_file))          
+        b = read_first_line(self.balance_file)
+        if b == "":
+            b = 0
+        else: 
+            b = float(b)         
         return b
     
     @balance.setter

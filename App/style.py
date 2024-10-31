@@ -13,18 +13,23 @@ def center_input(length, height):
     print(output)
 def withdraw_notes(amount_to_withdraw):
     notes = []
+    output = ''
+    middle_line=''
     if not isinstance(amount_to_withdraw, int):
         amount_to_withdraw = int(amount_to_withdraw)
     if amount_to_withdraw % 20 == 0:
         for _ in range(amount_to_withdraw//20):
             notes.append(20)
+    elif amount_to_withdraw>=30:
+        notes.append(10)
+        for _ in range((amount_to_withdraw-10)//20):
+              notes.append(20)  
     else:
-        notes.append(10)         
-    output = ''
+          notes.append(10)  
     line = '******** ' * len(notes)
-    middle_line=''
+    print(repr(line))
     for note in notes:       
-        middle_line+='*'+ f'{ "£"+str(note):^6}' + '* '
-    middle_line=middle_line        
-    output = green(f'{line.lstrip()}\n {middle_line}\n {line}\ntake your notes and continue.')    
+        middle_line+='*'+ f'{ "£"+str(note):^6}' + '* '        
+        
+    output = green(f'\n{line.lstrip()}\n{middle_line}\n{line}\ntake your notes and continue.')    
     return output
