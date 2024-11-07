@@ -1,23 +1,21 @@
-from App.file_handler import save_balance, save_transaction, read_first_line, check_path, create_file
+from App.file_handler import save_balance, save_transaction, read_first_line, create_file
 
 
 
-# find way to store and edit balance in file
+#zrobic automated tests. 
 #change __ na _, bo nie potrzebne.
-#change csv na txt
-class Bank_Account:
-    
+class Bank_Account:    
     def __init__(self, name, pin, acc_number):
         self.__name = name
         self.__pin = pin
         self.__acc_number = acc_number 
         self.transaction_history = f'.\\App\\data\\{acc_number}.txt'
-        self.balance_file = f'.\\App\\data\\{acc_number}_b.txt'
+        self.balance_file = f'.\\App\\data\\{acc_number}_,lob.txt'
         #check if new object balance is read properly after remove value in innit
         create_file(self.balance_file)
         create_file(self.transaction_history)
-                      
-    def deposit(self, amount):
+    # deposit class method use setter to update the balance file and append transfer to the history file.                 
+    def deposit(self, amount):        
         self.balance = amount
         save_transaction(self.transaction_history,amount)
 
@@ -26,14 +24,12 @@ class Bank_Account:
             self.balance = -amount          
             save_transaction(self.transaction_history,-amount)
             return True
-# transfer history need to be improved
-#idea, maybe nest 2 lists in transfers to store separate deposits and withdraws
-#move file handling 
+
     def transfer_history(self):
         transfers = []
         with open(self.transaction_history, "r") as f:
             # check only last 100 transfers
-            lines = f.readlines()[-1:-100:-1]          
+            lines = f.readlines()[-1:-160:-1]          
             for line in lines:              
                 if line == '\n':
                     continue  

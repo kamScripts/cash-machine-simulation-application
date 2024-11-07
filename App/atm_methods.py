@@ -1,5 +1,10 @@
 from time import sleep
-import pwinput 
+try:
+    import pwinput
+except ImportError as err:
+    print(err)
+     
+import getpass
 import os
 from App.style import yellow, red, green, center_input, withdraw_notes
 from App.prompter import prompts
@@ -20,17 +25,21 @@ class ATM:
         os._exit(0)     
         
     def _verify_pin(self, account):        
-        attempt_counter, welcome_string = 0, f' Hi, {account.name}.'           
-        while attempt_counter <=3:
-            #mask input with '*' charcter.                    
-            user_pin = pwinput.pwinput(prompt=f'{yellow("Please enter pin to log in:")}')
-            #user_pin =  input(f'{yellow("Please enter pin to log in:")}')            
+        attempt_counter =0
+        welcome_string = f' Hi, {account.name}.'           
+        while attempt_counter < 3:
+            #mask input with '*' charcter.
+            try:                    
+                user_pin = pwinput.pwinput(prompt=f'{yellow("Please enter PIN to log in:")}')
+            except NameError as err:
+                print(err)
+                user_pin =  getpass.getpass(prompt='Please enter PIN (Input will be hidden):')            
             if user_pin.isdigit() and self._check_pin(account, int(user_pin)):                 
                 print(green(welcome_string.center(self.t_length, '*')))
                 self.clear_terminal(1)                      
                 return True                                      
             attempt_counter+=1
-            print(f'{red("incorrect pin, you have")} {4-attempt_counter} {red("attempts")}'.center(self.t_length))
+            print(f'{red("incorrect PIN, you have")} {3-attempt_counter} {red("more attempts")}'.center(self.t_length))
             self.clear_terminal(1)
         print('You have exceeded maximum attempts, your card is blocked. Contact bank')
         return False
@@ -55,7 +64,9 @@ class ATM:
         dep, wit = '',''
         # to add \n when len(string) reach ((length of terminal) - 10).
         counter_d,counter_w=1,1             
-        for entry in ledger :                                 
+        for entry in ledger : 
+                # when length of string is close to length of terminal add new line.
+                #counters keep track of number of lines.                                
                 if len(dep) >=counter_d*(self.t_length-10):
                     dep+='\n  '
                     counter_d +=1
@@ -63,7 +74,6 @@ class ATM:
                     wit+='\n  '
                     counter_w +=1                
                 #when value is bigger than 0 assign to deposit part of the string and format size of entry to always has len() of 7
-                print(entry)
                 if float(entry) > 0:
                     dep += f'|{"£ "+ entry if len(entry) == 7 else " " * (7-len(entry)) + "£ "+ entry}|'
                 # format size to len() of 7, if len() of number not equal seven add space character n  times.  
@@ -77,7 +87,7 @@ class ATM:
     def _withdraw(self, account):
         center_input(self.t_length, self.t_height)
         amount = input(f'{yellow(prompts['withdraw'][0])}')
-        if amount.isdigit() and int(amount)<=300:
+        if amount.isdigit() and 10 <= int(amount)<=260 and int(amount)%10 is 0:
 # check if enouh funds to withdraw and output result to the user.                                           
             if account.withdraw(float(amount)):
                 print(f'{green(prompts['withdraw'][1])}{amount}')               
@@ -91,7 +101,7 @@ class ATM:
     def _deposit(self, account):
         center_input(self.t_length, self.t_height)         
         amount = input(f'{green(prompts['deposit'][0])}')   
-        if amount.isdigit() and int(amount) <= 5000:
+        if amount.isdigit() and 10 <= int(amount) <= 5000 and int(amount)%10 is 0:
             account.deposit(float(amount))            
             return f'{green(prompts['deposit'][1])}{amount}'
         else:

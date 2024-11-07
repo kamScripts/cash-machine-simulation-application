@@ -5,12 +5,13 @@ from App.atm_methods import ATM
 class CashMachine(ATM):  
           
     def user_interface(self):
-        exit_app = True
+        app_on = True
         account = self.insert_card()
         if not self._verify_pin(account):
-            exit_app = False       
+            app_on = False       
         
-        while exit_app: 
+        while app_on: 
+            # position text in the middle of the terminal.
             center_input(self.t_length, self.t_height)        
             for num, line in enumerate(prompts['main_menu']):                               
                 print(f'{yellow(str(num+1)+'.')}{line}'.center(self.t_length))                            
@@ -31,7 +32,7 @@ class CashMachine(ATM):
                 case '5':
                     self.clear_terminal(1) 
                     self._goodbye()
-                    exit_app = False
+                    app_on = False
                 
                            
     
