@@ -53,7 +53,7 @@ class ATM:
         return account.pin == pin_to_verify
            
     def _get_balance(self, account):
-        return f'{green('Account Balance:')} £{account.balance:.2f}' 
+        return f'{green("Account Balance:")} £{account.balance:.2f}' 
     
     def _transfer_history(self, account):        
         ledger = account.transfer_history()
@@ -78,7 +78,7 @@ class ATM:
                     dep += f'|{"£ "+ entry if len(entry) == 7 else " " * (7-len(entry)) + "£ "+ entry}|'
                 # format size to len() of 7, if len() of number not equal seven add space character n  times.  
                 else:
-                    wit += f'|{"£ "+entry.lstrip('-') if len(entry)-1 == 7 else " " * (7-(len(entry)-1)) +"£ "+ entry.lstrip('-')}|'  
+                    wit += f'|{"£ "+entry.lstrip("-") if len(entry)-1 == 7 else " " * (7-(len(entry)-1)) +"£ "+ entry.lstrip("-")}|'  
         output+= dep.strip() +'\n'
         output += red(' Withdrawals History:\n') + wit        
         return output
@@ -86,11 +86,11 @@ class ATM:
         
     def _withdraw(self, account):
         center_input(self.t_length, self.t_height)
-        amount = input(f'{yellow(prompts['withdraw'][0])}')
+        amount = input(f'{yellow(prompts["withdraw"][0])}')
         if amount.isdigit() and 10 <= int(amount)<=260 and int(amount)%10 is 0:
 # check if enouh funds to withdraw and output result to the user.                                           
             if account.withdraw(float(amount)):
-                print(f'{green(prompts['withdraw'][1])}{amount}')               
+                print(f'{green(prompts["withdraw"][1])}{amount}')               
                 self.clear_terminal(2)                
                 return   withdraw_notes(int(amount))           
             else:
@@ -100,10 +100,10 @@ class ATM:
 
     def _deposit(self, account):
         center_input(self.t_length, self.t_height)         
-        amount = input(f'{green(prompts['deposit'][0])}')   
+        amount = input(f'{green(prompts["deposit"][0])}')   
         if amount.isdigit() and 10 <= int(amount) <= 5000 and int(amount)%10 is 0:
             account.deposit(float(amount))            
-            return f'{green(prompts['deposit'][1])}{amount}'
+            return f'{green(prompts["deposit"][1])}{amount}'
         else:
             return red(prompts['deposit'][2])
 
