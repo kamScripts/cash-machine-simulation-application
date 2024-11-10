@@ -1,8 +1,8 @@
 from App.style import yellow, center_input
 from App.prompter import prompts
-from App.atm_methods import ATM
+import App.atm_methods as a
 
-class CashMachine(ATM):  
+class CashMachine(a.ATM):  
           
     def user_interface(self):
         app_on = True
