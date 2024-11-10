@@ -14,7 +14,7 @@ class CashMachine(ATM):
             # position text in the middle of the terminal.
             center_input(self.t_length, self.t_height)        
             for num, line in enumerate(prompts['main_menu']):                               
-                print(f'{yellow(str(num+1)+'.')}{line}'.center(self.t_length))                            
+                print(f'{yellow(str(num+1)+".")}{line}'.center(self.t_length))                            
             choice = input('Choose [1-5]: ')                     
             match choice:
                 case '1':
